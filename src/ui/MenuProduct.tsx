@@ -5,12 +5,18 @@ export type MenuProductProps = {
   thumbnailImage: StaticImageData;
   name: string;
   price: number;
+  hoverScaleLarger?: boolean;
 };
 
 export default function MenuProduct(props: MenuProductProps) {
+  const scaleLargerOnHover = props.hoverScaleLarger
+    ? "hover:scale-115"
+    : "hover:scale-105";
   return (
-    <Link href={`/products/${props.name}`} className="">
-      <div className="rounded-2xl shadow-2xl hover:scale-105 transition duration-250">
+    <Link href={`/products/${props.name}`} className="w-[250px]">
+      <div
+        className={`rounded-2xl shadow-2xl transition duration-250 bg-white w-[250px] h-[380px] ${scaleLargerOnHover} m-auto`}
+      >
         <Image
           className="rounded-t-2xl"
           src={props.thumbnailImage}

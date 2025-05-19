@@ -20,6 +20,69 @@ const coffeeProducts: MenuProductProps[] = [
   },
 ];
 
+const testCoffeeProducts: MenuProductProps[] = [
+  {
+    thumbnailImage: latteThumbnail,
+    name: "Caffè Latte",
+    price: 12.5,
+  },
+  {
+    thumbnailImage: americanoThumbnail,
+    name: "Americano",
+    price: 10.0,
+  },
+  {
+    thumbnailImage: latteThumbnail,
+    name: "Caffè Latte",
+    price: 12.5,
+  },
+  {
+    thumbnailImage: americanoThumbnail,
+    name: "Americano",
+    price: 10.0,
+  },
+  {
+    thumbnailImage: latteThumbnail,
+    name: "Caffè Latte",
+    price: 12.5,
+  },
+  {
+    thumbnailImage: americanoThumbnail,
+    name: "Americano",
+    price: 10.0,
+  },
+  {
+    thumbnailImage: latteThumbnail,
+    name: "Caffè Latte",
+    price: 12.5,
+  },
+  {
+    thumbnailImage: americanoThumbnail,
+    name: "Americano",
+    price: 10.0,
+  },
+  {
+    thumbnailImage: latteThumbnail,
+    name: "Caffè Latte",
+    price: 12.5,
+  },
+  {
+    thumbnailImage: americanoThumbnail,
+    name: "Americano",
+    price: 10.0,
+  },
+  {
+    thumbnailImage: latteThumbnail,
+    name: "Caffè Latte",
+    price: 12.5,
+  },
+  {
+    thumbnailImage: americanoThumbnail,
+    name: "Americano",
+    price: 10.0,
+  },
+];
+
 const nonCoffeeProducts: MenuProductProps[] = [
   {
     thumbnailImage: hotChocolateThumbnail,
@@ -56,15 +119,13 @@ export default async function MenuPage(props: Props) {
       ? { coffee: true, nonCoffee: true, pastries: true }
       : initialStatus;
 
-  console.log({ filterStatus });
-
   return (
-    <div className="m-5 gap-20 flex">
+    <div className="m-5 flex flex-col lg:flex-row gap-20">
       <MenuFilters />
-      <div>
+      <div className="flex-1">
         <div className="flex flex-col gap-10">
           {filterStatus.coffee && (
-            <MenuSection heading="Coffees" products={coffeeProducts} />
+            <MenuSection heading="Coffees" products={testCoffeeProducts} />
           )}
           {filterStatus.nonCoffee && (
             <MenuSection heading="Non-Coffees" products={nonCoffeeProducts} />
@@ -89,13 +150,13 @@ function MenuSection(props: MenuSectionProps) {
       {props.products.length === 0 ? (
         <p>Coming soon</p>
       ) : (
-        <div className="flex gap-10">
-          {props.products.map((product) => (
+        <div className="grid gap-y-16 gap-x-10 grid-cols-[repeat(auto-fill,250px)] justify-around">
+          {props.products.map((product, index) => (
             <MenuProduct
               name={product.name}
               thumbnailImage={product.thumbnailImage}
               price={product.price}
-              key={product.name}
+              key={`${product.name}-${index}`}
             />
           ))}
         </div>

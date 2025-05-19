@@ -1,3 +1,4 @@
+import Suggestions from "@/ui/Suggestion";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -43,26 +44,31 @@ const products: Product[] = [
   },
 ];
 
-export default function ProductDetailPage(props: Props) {
-  const productName = decodeURIComponent(props.params.productName);
-  console.log({ productName });
+export default async function ProductDetailPage(props: Props) {
+  const urlParams = await props.params;
+  const productName = decodeURIComponent(urlParams.productName);
   const product = products.find((product) => product.name === productName);
   if (product === undefined) {
     notFound();
   }
   return (
-    <div className="flex gap-20 p-20">
-      <Image
-        src={product.imageUrl}
-        width={450}
-        height={800}
-        alt={`A picture of ${product.name}`}
-        className="border-6 border-[#FFF8F0] shadow"
-      />
-      <div className="flex flex-col">
-        <h1 className="text-6xl mb-10">{product.name}</h1>
-        <p className="mb-5">{product.description}</p>
-        <p className="font-bold text-3xl">RM {product.price.toFixed(2)}</p>
+    <div>
+      <div className="flex flex-col lg:flex-row gap-20 p-20">
+        <Image
+          src={product.imageUrl}
+          width={450}
+          height={800}
+          alt={`A picture of ${product.name}`}
+          className="border-6 border-[#FFF8F0] shadow"
+        />
+        <div className="flex flex-col">
+          <h1 className="text-5xl lg:text-6xl mb-10">{product.name}</h1>
+          <p className="mb-5">{product.description}</p>
+          <p className="font-bold text-3xl">RM {product.price.toFixed(2)}</p>
+        </div>
+      </div>
+      <div>
+        <Suggestions />
       </div>
     </div>
   );

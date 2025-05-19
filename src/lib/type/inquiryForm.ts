@@ -3,7 +3,7 @@ import { z } from "zod";
 export const InquiryFormSchema = z.object({
   username: z
     .string()
-    .min(1, "Username must be at least 1 or more characters")
+    .min(3, "Username must be at least 3 or more characters")
     .max(20, "Username shouldn't exceeds 20 characters"),
   email: z.string().email(),
   inquiry: z

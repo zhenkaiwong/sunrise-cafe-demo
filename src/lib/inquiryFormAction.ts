@@ -1,27 +1,37 @@
 "use server";
 
-import { unknown, z } from "zod";
-import { getRecaptchaSecret } from "./recaptchaHelper";
+import { z } from "zod";
 import { InquiryFormResponse, InquiryFormSchema } from "./type/inquiryForm";
+import { verifyRecaptchaAsync } from "./recaptchaHelper";
 
 const ClientInquiryFormSchema = z.object({
   data: InquiryFormSchema,
-  recaptcha: z.string(),
+  recaptcha: z.string().min(1),
 });
 
 export async function inquiryFormAction(
   form: unknown
 ): Promise<InquiryFormResponse> {
-  const secret = getRecaptchaSecret();
   const result = ClientInquiryFormSchema.safeParse(form);
 
   if (!result.success) {
-    console.error(`${new Date().getUTCDate()}: Failed to parse inquiry form`);
+    const formattedError = result.error.format();
+    const errorMessage =
+      formattedError.recaptcha?._errors[0] ?? "Failed to parse inquiry form";
+    console.error(errorMessage);
     console.error(form);
-    return { success: false, error: "Failed to pass form validation" };
+    return { success: false, error: errorMessage };
   }
 
-  console.log({ result, secret });
+  const recaptchaVerified = await verifyRecaptchaAsync(result.data.recaptcha);
 
-  return { success: false, error: "123" };
+  if (!recaptchaVerified) {
+    const error = "Unable to verify recaptcha. Stop processing form.";
+    console.error(error);
+    return { success: false, error };
+  }
+
+  console.log("Inquiry received.", { inquiry: result.data.data });
+
+  return { success: true, error: undefined };
 }

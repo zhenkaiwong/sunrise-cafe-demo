@@ -1,4 +1,6 @@
-export function getRecaptchaSecret() {
+import { json } from "stream/consumers";
+
+function getRecaptchaSecret() {
   const secret = process.env.RECAPTCHA_SECRET;
 
   if (!secret) {
@@ -8,7 +10,7 @@ export function getRecaptchaSecret() {
   return secret;
 }
 
-export function getRecaptchaVerifyEndpoint() {
+function getRecaptchaVerifyEndpoint() {
   const endpoint = process.env.RECAPTCHA_ENDPOINT;
 
   if (!endpoint) {
@@ -16,4 +18,31 @@ export function getRecaptchaVerifyEndpoint() {
   }
 
   return endpoint;
+}
+
+export async function verifyRecaptchaAsync(
+  clientKey: string
+): Promise<boolean> {
+  const secret = getRecaptchaSecret();
+  const endpoint = getRecaptchaVerifyEndpoint();
+
+  const response = await fetch(
+    `${endpoint}?secret=${secret}&response=${clientKey}`,
+    { method: "POST" }
+  );
+
+  if (!response.ok) {
+    return false;
+  }
+
+  const verifyResult = await response.json();
+
+  if (!verifyResult.success) {
+    console.error(
+      "Failed to verify recaptcha: " + verifyResult["error-codes"][0]
+    );
+    return false;
+  }
+
+  return true;
 }

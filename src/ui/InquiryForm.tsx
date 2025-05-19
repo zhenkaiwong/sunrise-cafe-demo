@@ -4,27 +4,61 @@ import toast from "react-hot-toast";
 import Recaptcha from "./Recaptcha";
 import { inquiryFormAction } from "@/lib/inquiryFormAction";
 import { InquiryFormSchema } from "@/lib/type/inquiryForm";
+import { ReactNode, useState } from "react";
+import { ZodFormattedError } from "zod";
+
+type ErrorState = {
+  username: string | undefined;
+  email: string | undefined;
+  inquiry: string | undefined;
+};
 
 export default function InquiryForm() {
+  const [recaptcha, setRecaptcha] = useState<string | null>();
+  const [errorState, setErrorState] = useState<ErrorState>();
+
+  const updateErrorState = (error: ZodFormattedError<ErrorState> | null) => {
+    if (!error) {
+      setErrorState({
+        username: undefined,
+        email: undefined,
+        inquiry: undefined,
+      });
+      return;
+    }
+
+    setErrorState({
+      username: error.username?._errors[0],
+      email: error.email?._errors[0],
+      inquiry: error.inquiry?._errors[0],
+    });
+  };
+
   const onFormSubmit = async (form: FormData) => {
     const username = form.get("username")?.toString() ?? "";
-    const email = form.get("username")?.toString() ?? "";
+    const email = form.get("email")?.toString() ?? "";
     const inquiry = form.get("inquiry")?.toString() ?? "";
-    const recaptcha = form.get("g-recaptcha-response")?.toString() ?? "";
+
+    if (recaptcha === null) {
+      toast.error("Please complete reCAPTCHA challenge!");
+      return;
+    }
 
     const result = InquiryFormSchema.safeParse({ username, email, inquiry });
 
     if (!result.success) {
       toast.error("Uh oh. Please check your form again!");
-      console.log({ rr: result.error.format() });
+      updateErrorState(result.error.format());
       return;
     }
 
-    const response = await inquiryFormAction({ form: result.data, recaptcha });
+    updateErrorState(null);
+
+    const response = await inquiryFormAction({ data: result.data, recaptcha });
 
     if (!response.success) {
       toast.error(
-        "Uh on. The form service seems down. Please report this to us via email. Thanks!"
+        "Uh oh. The form service seems down. Please report this to us via email. Thanks!"
       );
       console.error(
         `${new Date().getUTCDate()}: Form submission to server failed.`
@@ -50,21 +84,31 @@ export default function InquiryForm() {
       <h1 className="text-6xl">Contact Us</h1>
       <form className="flex flex-col gap-5" action={onFormSubmit}>
         <div className="flex gap-20">
-          <InputField type="text" name="username" label="Your name" />
-          <InputField type="email" name="email" label="Your email" />
+          <InputField
+            type="text"
+            name="username"
+            label="Your name"
+            errorMessage={errorState?.username}
+          />
+          <InputField
+            type="email"
+            name="email"
+            label="Your email"
+            errorMessage={errorState?.email}
+          />
         </div>
-        <div>
-          <label htmlFor="inquiry" className="mb-1">
-            Your inquiry
-          </label>
-          <textarea name="inquiry" className="w-full border-2 p-5"></textarea>
-        </div>
+        <TextAreaField
+          label="Your inquiry"
+          name="inquiry"
+          errorMessage={errorState?.inquiry}
+        />
         <div className="flex flex-col gap-3">
-          <Recaptcha />
+          <Recaptcha onChange={setRecaptcha} />
           <div>
             <button
               type="submit"
-              className="bg-[#5C4033] border-[#5C4033] border-2 text-white p-3 hover:cursor-pointer hover:bg-white hover:text-[#5C4033] delay-100"
+              disabled={recaptcha == null}
+              className="bg-[#5C4033] border-[#5C4033] border-2 text-white p-3 hover:cursor-pointer hover:bg-white hover:text-[#5C4033] delay-100 disabled:bg-gray-500 disabled:border-gray-500 disabled:hover:text-white disabled:hover:cursor-not-allowed"
             >
               Send your inquiry
             </button>
@@ -75,18 +119,37 @@ export default function InquiryForm() {
   );
 }
 
-type InputFieldProps = {
+type InputFieldBaseProps = {
   label: string;
   name: string;
-  type: "text" | "email";
+  errorMessage: string | undefined;
 };
 
-function InputField(props: InputFieldProps) {
+type InputFieldWrapperProps = {
+  children: ReactNode;
+} & InputFieldBaseProps;
+
+type InputFieldProps = {
+  type: "text" | "email";
+} & InputFieldBaseProps;
+
+function InputFieldWrapper(props: InputFieldWrapperProps) {
   return (
     <div>
       <label htmlFor={props.name} className="block mb-1">
         {props.label}
       </label>
+      {props.children}
+      {props.errorMessage && (
+        <p className="text-red-500 text-xs">{props.errorMessage}</p>
+      )}
+    </div>
+  );
+}
+
+function InputField(props: InputFieldProps) {
+  return (
+    <InputFieldWrapper {...props}>
       <input
         type={props.type}
         name={props.name}
@@ -94,6 +157,14 @@ function InputField(props: InputFieldProps) {
         className="border-2 w-lg p-2"
         required
       />
-    </div>
+    </InputFieldWrapper>
+  );
+}
+
+function TextAreaField(props: InputFieldBaseProps) {
+  return (
+    <InputFieldWrapper {...props}>
+      <textarea name="inquiry" className="w-full border-2 p-5"></textarea>
+    </InputFieldWrapper>
   );
 }

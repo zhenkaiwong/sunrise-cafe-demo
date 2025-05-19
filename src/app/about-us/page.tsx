@@ -9,15 +9,15 @@ import InquiryForm from "@/ui/InquiryForm";
 
 export default function AboutUsPage() {
   return (
-    <>
+    <div className="my-20 mx-20">
       <AboutUs />
-    </>
+    </div>
   );
 }
 
 export function AboutUs() {
   return (
-    <div className="my-20 mx-20 flex flex-col gap-20">
+    <div className="flex flex-col gap-20">
       <Section
         title="Our Story"
         image={storyImage}

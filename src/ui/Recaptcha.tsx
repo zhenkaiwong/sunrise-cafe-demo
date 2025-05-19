@@ -1,15 +1,16 @@
 "use client";
 
-import Script from "next/script";
+import ReCAPTCHA from "react-google-recaptcha";
 
-export default function Recaptcha() {
+type Props = {
+  onChange: (token: string | null) => void;
+};
+
+export default function Recaptcha(props: Props) {
   return (
-    <>
-      <Script src="https://www.google.com/recaptcha/api.js" async defer />
-      <div
-        className="g-recaptcha"
-        data-sitekey="6LeGoysrAAAAAC8IjfVNOcFTYzr_MrAf_qqWrGGJ"
-      ></div>
-    </>
+    <ReCAPTCHA
+      sitekey={"6LeGoysrAAAAAC8IjfVNOcFTYzr_MrAf_qqWrGGJ"}
+      onChange={props.onChange}
+    />
   );
 }

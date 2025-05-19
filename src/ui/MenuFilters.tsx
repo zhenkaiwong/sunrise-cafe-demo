@@ -13,7 +13,7 @@ export default function MenuFilters(props: MenuFiltersProps) {
 
   return (
     <div>
-      <div className="flex flex-col gap-3 py-5 px-10 bg-[#FFF8F0] rounded-2xl shadow-2xl">
+      <div className="flex flex-row lg:flex-col gap-10 lg:gap-3 py-5 px-10 bg-[#FFF8F0] rounded-2xl shadow-2xl lg:min-w-[200px]">
         <p className="font-bold">Filters</p>
         <FilterCheckBox
           name="coffee"

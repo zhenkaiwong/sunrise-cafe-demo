@@ -105,7 +105,7 @@ function FilterCheckBox(props: FilterCheckBox) {
   };
 
   return (
-    <div>
+    <div className="flex gap-2">
       <input
         type="checkbox"
         name={props.name}

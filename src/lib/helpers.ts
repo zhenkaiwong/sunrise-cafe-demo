@@ -1,8 +1,9 @@
-export function getFilterStatuses(filters: string[]): {
+export type FilterStatus = {
   coffee: boolean;
   nonCoffee: boolean;
   pastries: boolean;
-} {
+}
+export function getFilterStatuses(filters: string[]): FilterStatus {
   const filterStatuses = {
     coffee: false,
     nonCoffee: false,

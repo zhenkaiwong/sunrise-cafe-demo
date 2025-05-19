@@ -10,12 +10,6 @@ type Props = {
 };
 
 export default function Suggestions(props: Props) {
-  // const suggestions = [
-  //   ...getCoffeeProducts(),
-  //   ...getNonCoffeeProducts(),
-  //   ...getPastryProducts(),
-  // ];
-
   const suggestions = [
     ...getCoffeeProducts(),
     ...getNonCoffeeProducts(),
@@ -36,10 +30,10 @@ export default function Suggestions(props: Props) {
 
   return (
     <div className="overflow-scroll">
-      <h1 className="text-4xl mt-[5vh] ml-[5vw]">
+      <h1 className="mt-[5vh] ml-[5vw] text-4xl">
         {props.label ?? "Other products"}
       </h1>
-      <div className="flex flex-col lg:flex-row pt-[50px] pb-[100px] gap-20 overflow-scroll">
+      <div className="flex flex-col gap-20 overflow-scroll pt-[50px] pb-[100px] lg:flex-row">
         {suggestions.map((suggestion, index) => (
           <Suggestion
             {...suggestion}

@@ -8,18 +8,18 @@ const greateVibes = Great_Vibes({ weight: "400" });
 export default function Home() {
   return (
     <>
-      <div className="bg-[url(/sunrise-cafe-banner.jpg)] bg-cover bg-center h-screen flex">
-        <div className="absolute inset-0 bg-black/10 -z-10"></div>
-        <div className="my-auto ml-[10vw] text-right">
-          <h1 className={`${greateVibes.className} text-8xl text-white mb-8`}>
+      <div className="flex h-screen justify-center bg-[url(/sunrise-cafe-banner.jpg)] bg-cover bg-center md:justify-start">
+        <div className="absolute inset-0 -z-10 bg-black/10"></div>
+        <div className="my-auto text-center md:ml-[10vw] md:text-right">
+          <h1 className={`${greateVibes.className} mb-8 text-8xl text-white`}>
             Sunrise Cafe
           </h1>
-          <p className={`text-white text-xl mb-8`}>
+          <p className={`mb-8 text-xl text-white`}>
             Dedicated to provide a good morning coffee
           </p>
           <Link
             href={"/menu"}
-            className="text-white text-xl italic hover:cursor-pointer border-solid border-white border-2 p-2.5 rounded-lg hover:bg-white hover:text-black transition duration-300"
+            className="rounded-lg border-2 border-solid border-white p-2.5 text-xl text-white italic transition duration-300 hover:cursor-pointer hover:bg-white hover:text-black"
           >
             View Menu
           </Link>

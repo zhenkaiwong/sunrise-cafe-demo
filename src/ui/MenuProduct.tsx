@@ -13,9 +13,9 @@ export default function MenuProduct(props: MenuProductProps) {
     ? "hover:scale-115"
     : "hover:scale-105";
   return (
-    <Link href={`/products/${props.name}`} className="w-[250px]">
+    <Link href={`/products/${props.name}`} className="mx-[50px] w-[250px]">
       <div
-        className={`rounded-2xl shadow-2xl transition duration-250 bg-white w-[250px] h-[380px] ${scaleLargerOnHover} m-auto`}
+        className={`h-[380px] w-[250px] rounded-2xl bg-white shadow-2xl transition duration-250 ${scaleLargerOnHover} m-auto`}
       >
         <Image
           className="rounded-t-2xl"
@@ -24,7 +24,7 @@ export default function MenuProduct(props: MenuProductProps) {
           width={250}
           height={250}
         />
-        <div className="p-5 flex flex-col gap-10">
+        <div className="flex flex-col gap-10 p-5">
           <strong>{props.name}</strong>
           <p>RM {props.price.toFixed(2)}</p>
         </div>

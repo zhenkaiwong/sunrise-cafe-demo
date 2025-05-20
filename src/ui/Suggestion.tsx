@@ -30,10 +30,10 @@ export default function Suggestions(props: Props) {
 
   return (
     <div className="overflow-scroll">
-      <h1 className="mt-[5vh] ml-[5vw] text-4xl">
+      <h1 className="px-10 pt-10 text-4xl">
         {props.label ?? "Other products"}
       </h1>
-      <div className="flex flex-col gap-20 overflow-scroll pt-[50px] pb-[100px] lg:flex-row">
+      <div className="flex flex-col gap-10 overflow-scroll pt-[50px] pb-[100px] sm:flex-row sm:gap-0">
         {suggestions.map((suggestion, index) => (
           <Suggestion
             {...suggestion}

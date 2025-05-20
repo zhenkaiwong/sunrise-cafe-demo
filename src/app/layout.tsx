@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 function FooterLink(props: { href: string; children: ReactNode }) {
   return (
-    <a href={props.href} target="_blank" className="flex gap-2 items-center">
+    <a href={props.href} target="_blank" className="flex items-center gap-2">
       {props.children}
     </a>
   );
@@ -38,10 +38,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${playfairDisplay.className} antialiased text-[#5C4033]`}
+        className={`${playfairDisplay.className} text-[#5C4033] antialiased`}
       >
         <LayoutHeader />
-        <div className="pb-[5vw] min-h-screen">
+        <div className="min-h-screen pb-[5vw]">
           <Toaster />
           {children}
         </div>
@@ -54,7 +54,7 @@ export default function RootLayout({
 function Footer() {
   function ContactInfo() {
     return (
-      <div className="flex-1 flex flex-col gap-3 items-center lg:items-start">
+      <div className="flex flex-1 flex-col items-center gap-3 lg:items-start">
         <FooterLink href="https://maps.app.goo.gl/kHW3gnrFWaYq7nSa9">
           <FaHouse />
           123, Jalan Bagus 12, Bandar City, 43300, Kuala Lumpur
@@ -72,11 +72,11 @@ function Footer() {
 
   function Links() {
     return (
-      <div className="flex-1 flex flex-col items-center gap-3">
+      <div className="flex flex-1 flex-col items-center gap-3">
         <div>
           <LayoutLogo />
         </div>
-        <div className="flex gap-10 justify-center items-center">
+        <div className="flex items-center justify-center gap-10">
           <NavLinks />
         </div>
       </div>
@@ -85,7 +85,7 @@ function Footer() {
 
   function SocialMediaLinks() {
     return (
-      <div className="flex flex-1 gap-10 justify-center lg:justify-end items-center">
+      <div className="flex flex-1 items-center justify-center gap-10 lg:justify-end">
         <a href="https://www.instagram.com" target="_blank">
           <FaInstagram size={"2rem"} />
         </a>
@@ -99,14 +99,12 @@ function Footer() {
   const baseStyles = "flex bg-[#5C4033] text-[#F5F5F5]";
   return (
     <>
-      <footer className={`${baseStyles} flex-col gap-10 lg:hidden p-[10vw]`}>
+      <footer className={`${baseStyles} flex-col gap-10 p-10 lg:hidden`}>
         <Links />
         <SocialMediaLinks />
         <ContactInfo />
       </footer>
-      <footer
-        className={`${baseStyles} flex-row hidden lg:flex px-[4vw] py-[2vw]`}
-      >
+      <footer className={`${baseStyles} hidden flex-row px-8 py-8 lg:flex`}>
         <ContactInfo />
         <Links />
         <SocialMediaLinks />

@@ -41,7 +41,7 @@ export default function RootLayout({
         className={`${playfairDisplay.className} text-[#5C4033] antialiased`}
       >
         <LayoutHeader />
-        <div className="min-h-screen pb-[5vw]">
+        <div className="min-h-screen pb-[10vh]">
           <Toaster />
           {children}
         </div>
@@ -96,19 +96,18 @@ function Footer() {
     );
   }
 
-  const baseStyles = "flex bg-[#5C4033] text-[#F5F5F5]";
   return (
-    <>
-      <footer className={`${baseStyles} flex-col gap-10 p-10 lg:hidden`}>
+    <footer className="flex justify-center bg-[#5C4033] text-[#F5F5F5]">
+      <div className="flex flex-col gap-10 p-10 lg:hidden">
         <Links />
         <SocialMediaLinks />
         <ContactInfo />
-      </footer>
-      <footer className={`${baseStyles} hidden flex-row px-8 py-8 lg:flex`}>
+      </div>
+      <div className="hidden w-full max-w-[1536px] flex-row justify-around px-8 py-8 lg:flex">
         <ContactInfo />
         <Links />
         <SocialMediaLinks />
-      </footer>
-    </>
+      </div>
+    </footer>
   );
 }

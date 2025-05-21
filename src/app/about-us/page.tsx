@@ -4,12 +4,11 @@ import Image, { StaticImageData } from "next/image";
 import storyImage from "@/../public/story.jpg";
 import baristaImage from "@/../public/basista.jpg";
 import findUsImage from "@/../public/find-us.jpg";
-import { inquiryFormAction } from "@/lib/inquiryFormAction";
 import InquiryForm from "@/ui/InquiryForm";
 
 export default function AboutUsPage() {
   return (
-    <div className="my-20 mx-20">
+    <div className="sm:mt-10 md:m-10 lg:m-20 2xl:flex 2xl:justify-center">
       <AboutUs />
     </div>
   );
@@ -17,7 +16,7 @@ export default function AboutUsPage() {
 
 export function AboutUs() {
   return (
-    <div className="flex flex-col gap-20">
+    <div className="flex max-w-[1536px] flex-col gap-20">
       <Section
         title="Our Story"
         image={storyImage}
@@ -59,10 +58,10 @@ export function AboutUs() {
 function WhereWeAre() {
   return (
     <div className="flex flex-col items-center gap-10">
-      <h1 className="text-6xl">Our location</h1>
+      <h1 className="text-5xl font-bold lg:text-6xl">Our Location</h1>
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.1138041222466!2d101.66164057691772!3d3.0642361969115064!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc4b07b7a2e615%3A0xe789f4d85e36bd87!2sCasa%20Green!5e0!3m2!1sen!2smy!4v1745926619751!5m2!1sen!2smy"
-        className="border-0 w-full h-120"
+        className="h-120 w-full border-0 p-5 md:p-0"
         allowFullScreen={false}
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
@@ -84,13 +83,19 @@ function Section(props: {
 }) {
   return (
     <div
-      className={`pb-16 flex justify-between gap-20 ${
-        props.reverse ? "flex-row-reverse" : "flex-row"
+      className={`flex items-center gap-20 pb-4 md:justify-between lg:pb-16 ${
+        props.reverse ? "flex-col md:flex-row-reverse" : "flex-col md:flex-row"
       }`}
     >
-      <Image src={props.image} alt={props.imageAlt} width={450} height={800} />
-      <div>
-        <h1 className="text-4xl pb-8">
+      <Image
+        src={props.image}
+        alt={props.imageAlt}
+        width={450}
+        height={800}
+        className="max-w-[450px] flex-1"
+      />
+      <div className="flex-1 p-10 md:p-0">
+        <h1 className="pb-8 text-4xl">
           <strong>{props.title}</strong>
         </h1>
         <p>{props.children}</p>

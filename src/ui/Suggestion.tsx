@@ -33,7 +33,7 @@ export default function Suggestions(props: Props) {
       <h1 className="px-10 pt-10 text-4xl">
         {props.label ?? "Other products"}
       </h1>
-      <div className="flex flex-col gap-10 overflow-scroll pt-[50px] pb-[100px] sm:flex-row sm:gap-0">
+      <div className="flex flex-col gap-10 overflow-scroll pt-[50px] pb-[50px] sm:flex-row sm:gap-0 sm:pb-[100px]">
         {suggestions.map((suggestion, index) => (
           <Suggestion
             {...suggestion}

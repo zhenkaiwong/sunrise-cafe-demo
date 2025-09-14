@@ -14,7 +14,12 @@ import NavLinks from "@/ui/nav/NavLinks";
 import LayoutHeader from "@/ui/LayoutHeader";
 import LayoutLogo from "@/ui/LayoutLogo";
 
-const playfairDisplay = Playfair_Display();
+const playfairDisplay = Playfair_Display({
+  subsets: [
+    "cyrillic",
+    "latin"
+  ]
+});
 
 export const metadata: Metadata = {
   title: "Sunrise Cafe ☀️",

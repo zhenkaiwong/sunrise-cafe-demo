@@ -7,19 +7,6 @@ import hotChocolateThumbnail from "@/../public/products/hot-chocolate-thumbnail.
 import croissantThumbnail from "@/../public/products/croissant-thumbnail.jpg";
 import { getFilterStatuses } from "@/lib/helpers";
 
-const coffeeProducts: MenuProductProps[] = [
-  {
-    thumbnailImage: latteThumbnail,
-    name: "Caffè Latte",
-    price: 12.5,
-  },
-  {
-    thumbnailImage: americanoThumbnail,
-    name: "Americano",
-    price: 10.0,
-  },
-];
-
 const testCoffeeProducts: MenuProductProps[] = [
   {
     thumbnailImage: latteThumbnail,

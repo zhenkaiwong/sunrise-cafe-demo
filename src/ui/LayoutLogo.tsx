@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-import { Great_Vibes, Playfair_Display } from "next/font/google";
+import { Great_Vibes } from "next/font/google";
 
-const greateVibes = Great_Vibes({ weight: "400" });
+const greateVibes = Great_Vibes({ weight: "400", subsets: ["cyrillic", "latin"] });
 
 export default function LayoutLogo() {
   return (

@@ -5,9 +5,7 @@ import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
-type MenuFiltersProps = {};
-
-export default function MenuFilters(props: MenuFiltersProps) {
+export default function MenuFilters() {
   const searchParams = useSearchParams();
   const filters = searchParams.getAll("filter");
   const filterStatuses = getFilterStatuses(filters);

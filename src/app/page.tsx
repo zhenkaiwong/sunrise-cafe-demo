@@ -1,9 +1,8 @@
 import { Great_Vibes } from "next/font/google";
 import Link from "next/link";
-import { AboutUs } from "./about-us/page";
 import Suggestions from "@/ui/Suggestion";
 
-const greateVibes = Great_Vibes({ weight: "400" });
+const greateVibes = Great_Vibes({ weight: "400", subsets: ["cyrillic", "latin"] });
 
 export default function Home() {
   return (

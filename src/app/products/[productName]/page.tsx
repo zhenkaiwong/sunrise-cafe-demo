@@ -3,7 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 type Props = {
-  params: { productName: string };
+  params: Promise<{ productName: string }>;
 };
 
 type Product = {

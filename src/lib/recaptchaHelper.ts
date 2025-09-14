@@ -1,5 +1,3 @@
-import { json } from "stream/consumers";
-
 function getRecaptchaSecret() {
   const secret = process.env.RECAPTCHA_SECRET;
 

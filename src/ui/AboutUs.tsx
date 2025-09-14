@@ -84,7 +84,7 @@ function Section(props: {
         alt={props.imageAlt}
         width={450}
         height={800}
-        className="max-w-[450px] flex-1"
+        className="lg:max-w-[450px] flex-1"
       />
       <div className="flex-1 p-10 md:p-0">
         <h1 className="pb-8 text-4xl">

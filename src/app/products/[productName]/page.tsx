@@ -33,7 +33,7 @@ const products: Product[] = [
   },
   {
     imageUrl: "/products/hot-chocolate-product.jpg",
-    mobileImageUrl: "/products/chocolate-thumbnail.jpg",
+    mobileImageUrl: "/products/hot-chocolate-thumbnail.jpg",
     name: "Hot Chocolate",
     price: 11.0,
     description:

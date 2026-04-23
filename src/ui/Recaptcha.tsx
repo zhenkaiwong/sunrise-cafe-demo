@@ -1,5 +1,6 @@
 "use client";
 
+import { getRecaptchaSecret } from "@/lib/recaptchaHelper";
 import ReCAPTCHA from "react-google-recaptcha";
 
 type Props = {
@@ -7,7 +8,10 @@ type Props = {
   enable: boolean
 };
 
+const siteKey = getRecaptchaSecret();
+
 export default function Recaptcha(props: Props) {
+
 
   if (!props.enable) {
     return <div>
@@ -16,7 +20,7 @@ export default function Recaptcha(props: Props) {
   }
   return (
     <ReCAPTCHA
-      sitekey={"6Ldxa8UsAAAAAOZd9QjhGiAJEl6dwMIoL4NlciCa"}
+      sitekey={siteKey!}
       onChange={props.onChange}
     />
   );

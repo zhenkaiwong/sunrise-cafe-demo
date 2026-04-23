@@ -6,6 +6,7 @@ import { inquiryFormAction, inquiryFormActionWithoutRecaptcha } from "@/lib/inqu
 import { InquiryFormSchema } from "@/lib/type/inquiryForm";
 import { ReactNode, useState } from "react";
 import { ZodFormattedError } from "zod";
+import { validateRecaptchaSecret, validateRecaptchaVerifyEndpoint } from "@/lib/recaptchaHelper";
 
 type ErrorState = {
   username: string | undefined;
@@ -13,7 +14,9 @@ type ErrorState = {
   inquiry: string | undefined;
 };
 
-const enableRecaptcha = false;
+const hasSecret = validateRecaptchaSecret();
+const hasEndpoint = validateRecaptchaVerifyEndpoint();
+const enableRecaptcha = hasSecret && hasEndpoint;
 
 export default function InquiryForm() {
   const [recaptcha, setRecaptcha] = useState<string | null>();

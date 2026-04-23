@@ -12,9 +12,10 @@ type Product = {
   name: string;
   price: number;
   description: string;
+  category: string;
 };
 
-const products: Product[] = [
+const fakeProducts: Product[] = [
   {
     imageUrl: "/products/latte-product.jpg",
     mobileImageUrl: "/products/latte-thumbnail.jpg",
@@ -22,6 +23,7 @@ const products: Product[] = [
     price: 12.5,
     description:
       "Smooth and creamy espresso with steamed milk, offering a comforting and balanced flavor.",
+    category: "Coffee",
   },
   {
     imageUrl: "/products/americano-product.jpg",
@@ -30,6 +32,7 @@ const products: Product[] = [
     price: 10.0,
     description:
       "A rich, bold espresso diluted with hot water, creating a smooth yet strong coffee experience.",
+    category: "Coffee",
   },
   {
     imageUrl: "/products/hot-chocolate-product.jpg",
@@ -38,6 +41,7 @@ const products: Product[] = [
     price: 11.0,
     description:
       "Luxuriously rich chocolate blended with steamed milk, topped with a light foam.",
+    category: "NonCoffee",
   },
   {
     imageUrl: "/products/croissant-product.jpg",
@@ -46,17 +50,41 @@ const products: Product[] = [
     price: 8.0,
     description:
       "Flaky, golden layers of buttery pastry, baked fresh every morning for the perfect bite.",
+    category: "Pastry",
   },
 ];
+
+async function getProductFromApiByName(productName: string): Promise<Product | undefined> {
+  const response = await fetch(`${process.env.API_URL}/api/products/name/${productName}`);
+  if (!response.ok) {
+    console.error(`Failed to fetch products: ${response.statusText}`);
+    return undefined;
+  }
+  const product = await response.json();
+  return product;
+}
+
+async function getProduct(productName: string): Promise<Product | undefined> {
+  const envApiUrlInvalid = !process.env.API_URL;
+  if (envApiUrlInvalid) {
+    console.log("Using fake products");
+    return fakeProducts.find((product) => product.name === productName);
+  }
+
+  console.log("Using products from API");
+  return await getProductFromApiByName(productName);
+}
 
 export default async function ProductDetailPage(props: Props) {
   const urlParams = await props.params;
   const productName = decodeURIComponent(urlParams.productName);
-  const product = products.find((product) => product.name === productName);
-  const productAlt = `A picture of ${product?.name}`;
+  const product = await getProduct(productName);
+
   if (product === undefined) {
     notFound();
   }
+
+  const productAlt = `A picture of ${product.name}`;
   return (
     <div>
       <div className="flex flex-col gap-20 md:items-center lg:flex-row">

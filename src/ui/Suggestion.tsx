@@ -9,23 +9,23 @@ type Props = {
   label?: string;
 };
 
-export default function Suggestions(props: Props) {
+export default async function Suggestions(props: Props) {
   const suggestions = [
-    ...getCoffeeProducts(),
-    ...getNonCoffeeProducts(),
-    ...getPastryProducts(),
-    ...getCoffeeProducts(),
-    ...getNonCoffeeProducts(),
-    ...getPastryProducts(),
-    ...getCoffeeProducts(),
-    ...getNonCoffeeProducts(),
-    ...getPastryProducts(),
-    ...getCoffeeProducts(),
-    ...getNonCoffeeProducts(),
-    ...getPastryProducts(),
-    ...getCoffeeProducts(),
-    ...getNonCoffeeProducts(),
-    ...getPastryProducts(),
+    ...await getCoffeeProducts(),
+    ...await getNonCoffeeProducts(),
+    ...await getPastryProducts(),
+    ...await getCoffeeProducts(),
+    ...await getNonCoffeeProducts(),
+    ...await getPastryProducts(),
+    ...await getCoffeeProducts(),
+    ...await getNonCoffeeProducts(),
+    ...await getPastryProducts(),
+    ...await getCoffeeProducts(),
+    ...await getNonCoffeeProducts(),
+    ...await getPastryProducts(),
+    ...await getCoffeeProducts(),
+    ...await getNonCoffeeProducts(),
+    ...await getPastryProducts(),
   ];
 
   return (

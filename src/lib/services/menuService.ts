@@ -5,37 +5,77 @@ import croissantThumbnail from "@/../public/products/croissant-thumbnail.jpg";
 
 import { MenuProductProps } from "@/ui/MenuProduct";
 
-export function getCoffeeProducts(): MenuProductProps[] {
-  return [
-    {
-      thumbnailImage: latteThumbnail,
-      name: "Caffè Latte",
-      price: 12.5,
-    },
-    {
-      thumbnailImage: americanoThumbnail,
-      name: "Americano",
-      price: 10.0,
-    },
-  ];
+const apiUrl = process.env.API_URL;
+const useFakeData = apiUrl === undefined
+
+async function getProductsFromApi(category: string): Promise<MenuProductProps[]> {
+  try {
+    const requestUrl = apiUrl + "/api/products/category/" + category;
+    const response = await fetch(requestUrl);
+    if (response.ok) {
+      const data = await response.json();
+
+      return data.map((item: any) => ({
+        thumbnailImage: item.mobileImageUrl,
+        name: item.name,
+        price: item.price,
+      }));
+    }
+  } catch (error) {
+    console.error("Failed to fetch products from category:", error);
+  }
+  return [];
 }
 
-export function getNonCoffeeProducts(): MenuProductProps[] {
-  return [
-    {
-      thumbnailImage: hotChocolateThumbnail,
-      name: "Hot Chocolate",
-      price: 11.0,
-    },
-  ];
+export async function getCoffeeProducts(): Promise<MenuProductProps[]> {
+  if (useFakeData) {
+    return [
+      {
+        thumbnailImage: latteThumbnail,
+        name: "Caffè Latte",
+        price: 12.5,
+      },
+      {
+        thumbnailImage: americanoThumbnail,
+        name: "Americano",
+        price: 10.0,
+      },
+    ];
+  }
+
+  const productsFromApi = await getProductsFromApi("coffee");
+
+  return productsFromApi;
 }
 
-export function getPastryProducts(): MenuProductProps[] {
-  return [
-    {
-      thumbnailImage: croissantThumbnail,
-      name: "Butter Croissant",
-      price: 8.0,
-    },
-  ];
+export async function getNonCoffeeProducts(): Promise<MenuProductProps[]> {
+  if (useFakeData) {
+    return [
+      {
+        thumbnailImage: hotChocolateThumbnail,
+        name: "Hot Chocolate",
+        price: 11.0,
+      },
+    ];
+  }
+
+  const productsFromApi = await getProductsFromApi("coffee");
+
+  return productsFromApi;
+}
+
+export async function getPastryProducts(): Promise<MenuProductProps[]> {
+  if (useFakeData) {
+    return [
+      {
+        thumbnailImage: croissantThumbnail,
+        name: "Butter Croissant",
+        price: 8.0,
+      },
+    ];
+  }
+
+  const productsFromApi = await getProductsFromApi("coffee");
+
+  return productsFromApi;
 }

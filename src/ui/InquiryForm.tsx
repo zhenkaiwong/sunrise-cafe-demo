@@ -2,7 +2,7 @@
 
 import toast from "react-hot-toast";
 import Recaptcha from "./Recaptcha";
-import { inquiryFormAction } from "@/lib/inquiryFormAction";
+import { inquiryFormAction, inquiryFormActionWithoutRecaptcha } from "@/lib/inquiryFormAction";
 import { InquiryFormSchema } from "@/lib/type/inquiryForm";
 import { ReactNode, useState } from "react";
 import { ZodFormattedError } from "zod";
@@ -12,6 +12,8 @@ type ErrorState = {
   email: string | undefined;
   inquiry: string | undefined;
 };
+
+const enableRecaptcha = false;
 
 export default function InquiryForm() {
   const [recaptcha, setRecaptcha] = useState<string | null>();
@@ -39,7 +41,7 @@ export default function InquiryForm() {
     const email = form.get("email")?.toString() ?? "";
     const inquiry = form.get("inquiry")?.toString() ?? "";
 
-    if (recaptcha === null) {
+    if (enableRecaptcha && recaptcha === null) {
       toast.error("Please complete reCAPTCHA challenge!");
       return;
     }
@@ -54,7 +56,9 @@ export default function InquiryForm() {
 
     updateErrorState(null);
 
-    const response = await inquiryFormAction({ data: result.data, recaptcha });
+    const response = (enableRecaptcha) 
+      ? await inquiryFormAction({ data: result.data, recaptcha }) 
+      : await inquiryFormActionWithoutRecaptcha({ data: result.data});
 
     if (!response.success) {
       toast.error(
@@ -79,6 +83,15 @@ export default function InquiryForm() {
       </div>,
     );
   };
+
+  const shouldDisableForm = () : boolean => {
+    if (!enableRecaptcha) {
+      return false;
+    }
+
+    return recaptcha == null;
+  }
+
   return (
     <div className="flex flex-col items-center gap-10">
       <h1 className="text-5xl font-bold lg:text-6xl">Contact Us</h1>
@@ -103,11 +116,11 @@ export default function InquiryForm() {
           errorMessage={errorState?.inquiry}
         />
         <div className="flex flex-col gap-3">
-          <Recaptcha onChange={setRecaptcha} />
+          <Recaptcha onChange={setRecaptcha} enable={enableRecaptcha} />
           <div>
             <button
               type="submit"
-              disabled={recaptcha == null}
+              disabled={shouldDisableForm()}
               className="w-full border-2 border-[#5C4033] bg-[#5C4033] p-3 text-white delay-100 hover:cursor-pointer hover:bg-white hover:text-[#5C4033] disabled:border-gray-500 disabled:bg-gray-500 disabled:hover:cursor-not-allowed disabled:hover:text-white lg:w-auto"
             >
               Send your inquiry

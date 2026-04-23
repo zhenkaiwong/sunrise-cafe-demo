@@ -6,7 +6,11 @@ import { verifyRecaptchaAsync } from "./recaptchaHelper";
 
 const ClientInquiryFormSchema = z.object({
   data: InquiryFormSchema,
-  recaptcha: z.string().min(1),
+  recaptcha: z.string().min(1)
+});
+
+const ClientInquiryFormSchemaWithoutRecaptcha = z.object({
+  data: InquiryFormSchema
 });
 
 export async function inquiryFormAction(
@@ -29,6 +33,23 @@ export async function inquiryFormAction(
     const error = "Unable to verify recaptcha. Stop processing form.";
     console.error(error);
     return { success: false, error };
+  }
+
+  console.log("Inquiry received.", { inquiry: result.data.data });
+
+  return { success: true, error: undefined };
+}
+
+export async function inquiryFormActionWithoutRecaptcha(
+  form: unknown
+): Promise<InquiryFormResponse> {
+  const result = ClientInquiryFormSchemaWithoutRecaptcha.safeParse(form);
+
+  if (!result.success) {
+    const errorMessage = "Failed to parse inquiry form";
+    console.error(errorMessage);
+    console.error(form);
+    return { success: false, error: errorMessage };
   }
 
   console.log("Inquiry received.", { inquiry: result.data.data });

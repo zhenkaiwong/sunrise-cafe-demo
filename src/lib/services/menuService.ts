@@ -5,17 +5,24 @@ import croissantThumbnail from "@/../public/products/croissant-thumbnail.jpg";
 
 import { MenuProductProps } from "@/ui/MenuProduct";
 
+type ApiProductItem = {
+  mobileImageUrl: string;
+  name: string;
+  price: number;
+};
+
 const apiUrl = process.env.API_URL;
 const useFakeData = apiUrl === undefined
 
 async function getProductsFromApi(category: string): Promise<MenuProductProps[]> {
+  console.log(`Get ${category} menu from API`);
   try {
     const requestUrl = apiUrl + "/api/products/category/" + category;
     const response = await fetch(requestUrl);
     if (response.ok) {
       const data = await response.json();
 
-      return data.map((item: any) => ({
+      return data.map((item: ApiProductItem) => ({
         thumbnailImage: item.mobileImageUrl,
         name: item.name,
         price: item.price,
@@ -29,6 +36,7 @@ async function getProductsFromApi(category: string): Promise<MenuProductProps[]>
 
 export async function getCoffeeProducts(): Promise<MenuProductProps[]> {
   if (useFakeData) {
+    console.log("Get coffee menu from fake data");
     return [
       {
         thumbnailImage: latteThumbnail,
@@ -50,6 +58,7 @@ export async function getCoffeeProducts(): Promise<MenuProductProps[]> {
 
 export async function getNonCoffeeProducts(): Promise<MenuProductProps[]> {
   if (useFakeData) {
+    console.log("Get non-coffee menu from fake data");
     return [
       {
         thumbnailImage: hotChocolateThumbnail,
@@ -66,6 +75,7 @@ export async function getNonCoffeeProducts(): Promise<MenuProductProps[]> {
 
 export async function getPastryProducts(): Promise<MenuProductProps[]> {
   if (useFakeData) {
+    console.log("Get pastry menu from fake data");
     return [
       {
         thumbnailImage: croissantThumbnail,
